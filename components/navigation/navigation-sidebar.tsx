@@ -56,10 +56,12 @@ export const NavigationSideBar = async () => {
         <ActionTooltip side="right" align="center" label="Discord Nitro">
           <Link href={`/servers/${serverId}/conversations`}>
             <Image
-              src={imageurl}
+              src={imageurl} // Ensure this is a high-resolution image
               alt="Discord Nitro"
-              width={30}
-              className="h-[48px] w-[48px] rounded-xl mr-3 ms-3"
+              layout="fixed" // Use fixed layout for small sizes
+              height={48} // Set a height that corresponds to your desired size
+              width={48} // Set a width that corresponds to your desired size
+              className="rounded-xl mr-3 ms-3"
             />
           </Link>
         </ActionTooltip>

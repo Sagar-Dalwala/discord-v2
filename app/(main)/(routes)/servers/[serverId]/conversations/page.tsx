@@ -166,6 +166,7 @@ function Page() {
                         <Image
                           src={imageUrl}
                           alt="Discord Nitro"
+                          layout="fixed"
                           width={40}
                           height={40}
                           className="rounded-md"

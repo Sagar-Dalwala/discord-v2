@@ -35,7 +35,10 @@ export const ChatHeader = ({
         <Image
           src={imagepath}
           alt="Discord Nitro"
-          className="h-10 w-10 md:h-10 md:w-10 mr-2 rounded-xl"
+          layout="fixed"
+          height={40}
+          width={40}
+          className="mr-2 rounded-xl"
         />
       )}
       <p className="font-semibold text-md text-black dark:text-white">{name}</p>
