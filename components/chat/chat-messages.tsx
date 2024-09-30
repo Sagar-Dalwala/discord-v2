@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useRef, ElementRef, useEffect } from "react";
+import { Fragment, useRef, ElementRef } from "react";
 import { format } from "date-fns";
 import { Member, Message, Profile } from "@prisma/client";
 import { Loader2, ServerCrash } from "lucide-react";
@@ -33,6 +33,11 @@ interface ChatMessagesProps {
   type: "channel" | "conversation";
 }
 
+// Define a type for the naughtyWords structure
+type NaughtyWords = {
+  [key: string]: readonly string[];
+};
+
 export const ChatMessages = ({
   name,
   member,
@@ -50,10 +55,6 @@ export const ChatMessages = ({
 
   const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
-
-  // useEffect(()=>{
-  //   console.log(naughtyWords);
-  // },[naughtyWords])
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
@@ -124,11 +125,19 @@ export const ChatMessages = ({
           <Fragment key={i}>
             {group.items.map((message: MessageWithMemberWithProfile) => {
               let count = 0;
-              for (let key in naughtyWords) {
-                const messagel = message.content.split(" ");
-                for (let word of messagel) {
-                  if (naughtyWords[key].includes(word)) {
-                    count++;
+              const messageWords = message.content.split(" ");
+              
+              // Type assertion for naughtyWords
+              const naughtyWordsTyped = naughtyWords as NaughtyWords;
+              
+              // Iterate over the keys of naughtyWords safely
+              for (const key in naughtyWordsTyped) {
+                if (Object.prototype.hasOwnProperty.call(naughtyWordsTyped, key)) {
+                  const naughtyList = naughtyWordsTyped[key]; // Type assertion here
+                  for (const word of messageWords) {
+                    if (naughtyList.includes(word)) {
+                      count++;
+                    }
                   }
                 }
               }
