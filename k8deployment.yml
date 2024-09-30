@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: discord-deployment
+  template:
+    metadata:
+      labels:
+        app: discord-deployment
+    spec:
+      containers:
+        - name: discord
+          image: vishnu0609/discord:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: discord-service
+spec:
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: discord-deployment
+  type: LoadBalancer
